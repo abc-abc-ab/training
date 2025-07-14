@@ -1,5 +1,5 @@
 ((d, t)=>{
-    let time = param.get("time"), count = 0, param = new URLSearchParams(d.location.href);
+    let count = 0, param = new URLSearchParams(d.location.href), time = param.get("time");
     const contentElement = d.getElementById("content"),
     timeElement = d.getElementById("time"),
     countElement = d.getElementById("count");
@@ -10,6 +10,7 @@
         countElement.innerText = ++count;
     })
 
+    t.addEventListener("beforeunload", (e)=>{history.replaceState("", "", "./timer.html")})
     
     history.replaceState("", "", "./timer.html/#")
 })(document, window)
