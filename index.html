@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <script>history.replaceState("", "", "./index.html/#")</script>
+  <script>history.replaceState("", "", "./index.html/#"); t.addEventListener("beforeunload", (e)=>{history.replaceState("", "", "./index.html")})</script>
   <title>Training Timer</title>
 </head>
 <body>
-  <form method="GET" >
+  <form method="GET" action="./timer.html">
     <label>Training time: <input type="number" name="time"> sec</label>
     <label>Break time: <input type="number" name="break"> sec</label>
     <label>Training times: <input type="number" name="times"> time(s)</label>
