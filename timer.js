@@ -1,11 +1,15 @@
 ((d, t)=>{
-    let count = 0;
-    const timeElement = d.getElementById("time"),
-    countElement = d.getElementByid("count");
+    let time = param.get("time"), count = 0, param = new URLSearchParams(d.location.href);
+    const contentElement = d.getElementById("content"),
+    timeElement = d.getElementById("time"),
+    countElement = d.getElementById("count");
+
+    if (time === null){d.location.href = "./"}
 
     t.addEventListener("click", (e)=>{
         countElement.innerText = ++count;
     })
 
-    timeElement.innerText// = [URLパラメータ]
+    
+    history.replaceState("", "", "./timer.html/#")
 })(document, window)
