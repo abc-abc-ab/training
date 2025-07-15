@@ -18,7 +18,7 @@ Object.defineProperty(Number.prototype, "PadTo2Digits", {
     t.addEventListener("click", (e)=>{
         countElement.innerText = ++count;
     })
-    t.addEventListener("beforeunload", (e)=>{history.replaceState("", "", "./timer.html")})
+    t.addEventListener("beforeunload", (e)=>{history.replaceState("", "", "../timer.html")})
     t.setInterval(CountDown, 1, [timeElement, time])
 
     //
