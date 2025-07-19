@@ -1,3 +1,6 @@
 form *{
-    display: inline-block;
+    display: block;
+}
+form input{
+    display: inline;
 }
