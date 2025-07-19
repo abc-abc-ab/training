@@ -11,11 +11,6 @@ window.addEventListener("DOMContentLoaded", ((e)=>{
     countElement = d.getElementById("count");
     if ((isNaN(Traningtime) || isNaN(breakTime)) || Traningtime * breakTime === 0){d.location.href = "./"}
 
-    /** 関数
-     * @function Number.prototype.PadTo2Digits
-     * @memberof Number.prototype
-     * @returns {string}
-     */
     Object.defineProperty(Number.prototype, "PadTo2Digits",
         { value: /** @this {Number}*/function() {return String(this).padStart(2, "0"); }, writable: false
     });
