@@ -20,7 +20,7 @@ t.addEventListener("DOMContentLoaded", ((e) => {
     })
     interval = t.setInterval(CountDown, 10, [timeElement, time]);
 
-    // TODO: 切り替え
+    // TODO: 切り替え処理
 
     t.history.replaceState("", "", "./timer.html?")
 }));
