@@ -6,6 +6,121 @@
 	<link rel="stylesheet" href="/all.css">
     <link rel="stylesheet" href="./style.css">
     <script src="./timer.gemini.js"></script>
+    <style>
+        /* Container for main timer elements (optional, but good for grouping) */
+        .timer-container {
+            background-color: #ffffff; /* White background for the timer area */
+            border-radius: 12px; /* Rounded corners */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+            padding: 30px 40px; /* Inner spacing */
+            margin-bottom: 20px; /* Space below the timer container */
+            width: 90%; /* Take 90% of parent width */
+            max-width: 400px; /* Max width to prevent it from getting too wide on large screens */
+        }
+
+        /* Style for the phase title (e.g., "Training #1") */
+        #phaseTitle {
+            font-size: 2.2em; /* Larger font size */
+            color: #007bff; /* A prominent blue color */
+            margin-bottom: 15px; /* Space below the title */
+            font-weight: bold; /* Bold text */
+            text-transform: uppercase; /* Uppercase for emphasis */
+            letter-spacing: 1px; /* Slightly spaced letters */
+        }
+
+        /* Style for the main time display (e.g., "01:00.00") */
+        #timeDisplay {
+            font-family: 'Roboto Mono', monospace; /* Monospace font for digits for better alignment */
+            font-size: 5em; /* Very large font size for visibility */
+            font-weight: 700; /* Extra bold */
+            color: #dc3545; /* A strong red color */
+            margin-bottom: 20px; /* Space below the time */
+            letter-spacing: -2px; /* Slightly tighter letter spacing for time display */
+        }
+
+        /* Style for the click count display */
+        #clickCountDisplay {
+            font-size: 1.6em; /* Medium-large font size */
+            color: #28a745; /* A vibrant green color */
+            margin-top: 10px; /* Space above the click count */
+            font-weight: 600; /* Semi-bold */
+        }
+
+        /* Form styles for the input page (if applicable) */
+        form {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px 35px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Space between form elements */
+            width: 90%;
+            max-width: 350px;
+        }
+
+        form label {
+            font-size: 1.1em;
+            color: #555;
+            display: flex; /* Align label and input */
+            justify-content: space-between; /* Push input to the right */
+            align-items: center;
+        }
+
+        form input[type="number"] {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1em;
+            width: 80px; /* Fixed width for number inputs */
+            text-align: center;
+        }
+
+        /* Style for the submit button/link */
+        .button {
+            display: inline-block; /* Allows padding and width */
+            padding: 12px 25px;
+            background-color: #007bff; /* Primary blue color */
+            color: white; /* White text */
+            text-decoration: none; /* Remove underline for links */
+            border-radius: 8px; /* Rounded corners */
+            font-size: 1.2em; /* Larger font */
+            font-weight: bold; /* Bold text */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effects */
+            cursor: pointer; /* Indicate clickable */
+            border: none; /* No border for button */
+            margin-top: 20px; /* Space above button */
+            -webkit-appearance: none; /* For consistent button styling across browsers */
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+
+        .button:active {
+            background-color: #004085; /* Even darker when clicked */
+            transform: translateY(0); /* Reset lift */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            #phaseTitle {
+                font-size: 1.8em;
+            }
+            #timeDisplay {
+                font-size: 4em;
+            }
+            #clickCountDisplay {
+                font-size: 1.4em;
+            }
+            .timer-container, form {
+                padding: 20px 25px;
+            }
+        }
+    </style>
     <title>Training Timer</title>
 </head>
 <body style="user-select: none;">
