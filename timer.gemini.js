@@ -16,6 +16,11 @@ let trainingDuration = 0; // トレーニング時間 (秒)
 let breakDuration = 0;    // 休憩時間 (秒)
 
 t.addEventListener("DOMContentLoaded", ((e) => {
+    // HTML要素の参照をDOMContentLoaded内でconstで取得
+    const titleElement = d.getElementById("title");
+    const timeElement = d.getElementById("time");
+    const clickCountElement = d.getElementById("clickCount");
+
     // URLパラメータの取得とバリデーション
     const urlParams = new URLSearchParams(d.location.search);
     const paramTrainingTime = parseFloat(urlParams.get("time"));
@@ -25,16 +30,10 @@ t.addEventListener("DOMContentLoaded", ((e) => {
     trainingDuration = paramTrainingTime * 60;
     breakDuration = paramBreakTime * 60;
 
-    // HTML要素への参照
-    const titleElement = d.getElementById("title");
-    const timeElement = d.getElementById("time");
-    const clickCountElement = d.getElementById("clickCount"); // クリックカウント表示用の新しいID
-    const startButton = d.getElementById("startButton");
-
     // パラメータが無効な場合のバリデーション
     if (isNaN(trainingDuration) || isNaN(breakDuration) || trainingDuration <= 0 || breakDuration <= 0) {
         d.location.href = "./"; // 無効な場合はリダイレクト
-        return;
+        return; // リダイレクト後、これ以上処理しない
     }
 
     // Number.prototype.PadTo2Digits の定義
@@ -49,38 +48,81 @@ t.addEventListener("DOMContentLoaded", ((e) => {
     isTrainingPhase = true;
     
     clickCountElement.innerText = clickCount; // クリックカウントの初期表示
-    updateDisplayElements(); // 初期表示を更新
+
+    // タイマーの表示を更新する関数をDOMContentLoaded内で定義（要素をクロージャで捕捉）
+    // CountDown関数やtogglePhase関数からも呼び出せるようにする
+    const updateDisplayElements = () => {
+        if (titleElement) {
+            titleElement.innerText = `${currentTitle} #${programCount}`;
+        }
+        if (timeElement) {
+            timeElement.innerText = formatTime(currentTime);
+        }
+    };
+
+    // CountDown関数もDOMContentLoaded内で定義することで、
+    // titleElement, timeElement などをクロージャで利用できるようにする
+    const CountDown = () => {
+        currentTime -= 0.01;
+        updateDisplayElements(); // 表示を更新
+
+        if (currentTime <= 0) {
+            currentTime = 0;
+            updateDisplayElements(); // 最終表示を更新
+            t.clearInterval(interval); // タイマー停止
+            interval = 0; // IDをリセット
+
+            // フェーズ切り替え処理を呼び出す
+            togglePhase();
+        }
+    };
+
+    // togglePhase関数もDOMContentLoaded内で定義することで、
+    // CountDown関数やupdateDisplayElements関数などをクロージャで利用できるようにする
+    const togglePhase = () => {
+        if (isTrainingPhase) {
+            // 現在がトレーニングフェーズなら、休憩フェーズへ
+            currentTitle = "休憩";
+            currentTime = breakDuration;
+            isTrainingPhase = false;
+        } else {
+            // 現在が休憩フェーズなら、トレーニングフェーズへ
+            currentTitle = "トレーニング";
+            currentTime = trainingDuration;
+            isTrainingPhase = true;
+            programCount++; // トレーニングフェーズに戻るときに回数を増やす
+        }
+
+        // 次のフェーズのタイマーを開始
+        startTimerSequence();
+    };
+
+    // startTimerSequence関数もDOMContentLoaded内で定義
+    const startTimerSequence = () => {
+        if (interval) {
+            t.clearInterval(interval); // 既にタイマーが動いていればクリア
+        }
+        interval = t.setInterval(CountDown, 10);
+        console.log(`タイマー開始: ${currentTitle} #${programCount}, 残り時間: ${currentTime.toFixed(2)}s`);
+    };
 
     // クリックイベントリスナー (クリックされた回数をカウントし、表示)
     t.addEventListener("click", (e) => {
         clickCountElement.innerText = ++clickCount;
     });
 
-    // スタートボタンがクリックされたらタイマーを開始
-    startButton.addEventListener("click", startTimerSequence);
+    // 初期表示を更新
+    updateDisplayElements();
+
+    // タイマーシーケンスを自動的に開始 (別ページからの遷移時)
+    startTimerSequence();
 
     // URL履歴の置き換え
     t.history.replaceState("", "", "./timer.html?")
 }));
 
 /**
- * HTML要素の表示を更新する関数
- */
-function updateDisplayElements() {
-    const titleElement = d.getElementById("title");
-    const timeElement = d.getElementById("time");
-
-    if (titleElement) {
-        titleElement.innerText = `${currentTitle} #${programCount}`; // タイトルとフェーズ回数を表示
-    }
-    if (timeElement) {
-        timeElement.innerText = formatTime(currentTime);
-    }
-    // clickCountElement は updateDisplayElements とは独立して更新される
-}
-
-/**
- * 時間を MM:SS.ms の形式にフォーマットする関数
+ * 時間を MM:SS.ms の形式にフォーマットする関数 (この関数は依存性がないためグローバルでもOK)
  * @param {number} timeInSeconds - 秒単位の時間
  * @returns {string} フォーマットされた文字列
  */
@@ -90,55 +132,6 @@ function formatTime(timeInSeconds) {
     const seconds = Math.floor((totalMilliseconds % (60 * 100)) / 100);
     const centiseconds = Math.floor(totalMilliseconds % 100);
 
+    // Number.prototype.PadTo2Digits が定義されている前提
     return `${Number(minutes).PadTo2Digits()}:${Number(seconds).PadTo2Digits()}.${Number(centiseconds).PadTo2Digits()}`;
-}
-
-/**
- * タイマーのカウントダウン処理（10ミリ秒ごとに呼び出される）
- */
-function CountDown() {
-    currentTime -= 0.01;
-    updateDisplayElements(); // 表示を更新
-
-    if (currentTime <= 0) {
-        currentTime = 0;
-        updateDisplayElements(); // 最終表示を更新
-        t.clearInterval(interval); // タイマー停止
-        interval = 0; // IDをリセット
-
-        // フェーズ切り替え処理
-        togglePhase();
-    }
-}
-
-/**
- * フェーズを切り替える関数
- */
-function togglePhase() {
-    if (isTrainingPhase) {
-        // 現在がトレーニングフェーズなら、休憩フェーズへ
-        currentTitle = "休憩";
-        currentTime = breakDuration;
-        isTrainingPhase = false;
-    } else {
-        // 現在が休憩フェーズなら、トレーニングフェーズへ
-        currentTitle = "トレーニング";
-        currentTime = trainingDuration;
-        isTrainingPhase = true;
-        programCount++; // トレーニングフェーズに戻るときに回数を増やす
-    }
-
-    // 次のフェーズのタイマーを開始
-    startTimerSequence();
-}
-
-/**
- * タイマーシーケンスを開始する関数
- */
-function startTimerSequence() {
-    if (interval) {
-        t.clearInterval(interval);
-    }
-    interval = t.setInterval(CountDown, 10);
-    console.log(`タイマー開始: ${currentTitle} #${programCount}, 残り時間: ${currentTime.toFixed(2)}s`);
 }
