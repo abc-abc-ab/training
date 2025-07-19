@@ -2,7 +2,7 @@
 const d = document, t = window;
 let interval = 0;
 
-window.addEventListener("DOMContentLoaded", ((e)=>{
+window.addEventListener("DOMContentLoaded", ((e) => {
     let count = 0, param = new URLSearchParams(d.location.href);
     const TraningTime = param.get("time") * 60, breakTime = param.get("break") * 60;
     let title = "", time = 0;
