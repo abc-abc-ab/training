@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="stylesheet" href="/all.css">
-  <script>history.replaceState("", "", "./index.html/#"); addEventListener("beforeunload", (e)=>{history.replaceState("", "", "../index.html");})</script>
-  <title>Training Timer</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<link rel="stylesheet" href="/all.css">
+	<title>Training Timer</title>
 </head>
 <body>
-  <form method="GET" action="./timer.html">
-    <label>Training time: <input type="number" name="time"> sec</label>
-    <label>Break time: <input type="number" name="break"> sec</label>
-    <label>Training times: <input type="number" name="times"> time(s)</label>
-  </form>
+	<form method="GET" action="./timer.html">
+		<label>Training time: <input type="number" name="time"> min</label>
+		<label>Break time: <input type="number" name="break"> min</label>
+		<label>Training times: <input type="number" name="times"> time(s)</label>
+	</form>
 </body>
 </html>
