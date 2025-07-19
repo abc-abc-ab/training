@@ -9,7 +9,7 @@ window.addEventListener("DOMContentLoaded", ((e)=>{
     const titleElement = d.getElementById("title"),
     timeElement = d.getElementById("time"),
     countElement = d.getElementById("count");
-    if (isNaN(Traningtime) || isNaN(breakTime)){d.location.href = "./"}
+    if ((isNaN(Traningtime) || isNaN(breakTime)) || Traningtime * breakTime === 0){d.location.href = "./"}
 
     /** 関数
      * @function Number.prototype.PadTo2Digits
@@ -20,7 +20,7 @@ window.addEventListener("DOMContentLoaded", ((e)=>{
         { value: /** @this {Number}*/function() {return String(this).padStart(2, "0"); }, writable: false
     });
 
-    t.addEventListener("click", (e)=>{
+    t.addEventListener("click", (e) => {
         countElement.innerText = ++count;
     })
     interval = t.setInterval(CountDown, 10, [timeElement, time]);
