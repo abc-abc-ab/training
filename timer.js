@@ -2,7 +2,7 @@
 const d = document, t = window;
 let interval = 0;
 
-window.addEventListener("DOMContentLoaded", ((e) => {
+t.addEventListener("DOMContentLoaded", ((e) => {
     let count = 0, param = new URLSearchParams(d.location.href);
     const traningTime = param.get("time") * 60, breakTime = param.get("break") * 60;
     let title = "", time = 0;
@@ -20,7 +20,7 @@ window.addEventListener("DOMContentLoaded", ((e) => {
     })
     interval = t.setInterval(CountDown, 10, [timeElement, time]);
 
-    //
+    // TODO: 切り替え
 
     t.history.replaceState("", "", "./timer.html?")
 }));
@@ -30,9 +30,10 @@ window.addEventListener("DOMContentLoaded", ((e) => {
  * @param {Number} time 
  */
 function CountDown(elm, time) {
-    time -= 0.01
+    time -= 0.01;
     elm.innerText =
     `${Math.floor(Math.trunc(time) / 60).PadTo2Digits()}:${
      (Math.trunc(time) % 60).PadTo2Digits()}.${
      ((time - Math.trunc(time)) * 100).PadTo2Digits()}`;
+    if (time <= 0) {t.clearInterval(interval); interval = 0;}
 }
