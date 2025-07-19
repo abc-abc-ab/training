@@ -5,8 +5,8 @@ let interval = 0;
 window.addEventListener("DOMContentLoaded", ((e)=>{
     let count = 0, param = new URLSearchParams(d.location.href);
     const Traningtime = param.get("time") * 60, breakTime = param.get("break") * 60;
-    let time = 0;
-    const contentElement = d.getElementById("content"),
+    let title = "", time = 0;
+    const titleElement = d.getElementById("title"),
     timeElement = d.getElementById("time"),
     countElement = d.getElementById("count");
     if (isNaN(Traningtime) || isNaN(breakTime)){d.location.href = "./"}
@@ -26,6 +26,8 @@ window.addEventListener("DOMContentLoaded", ((e)=>{
     interval = t.setInterval(CountDown, 10, [timeElement, time]);
 
     //
+
+    t.history.replaceState("", "", "./timer.html?")
 }));
 
 /** It's count down function.
