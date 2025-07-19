@@ -4,12 +4,12 @@ let interval = 0;
 
 window.addEventListener("DOMContentLoaded", ((e) => {
     let count = 0, param = new URLSearchParams(d.location.href);
-    const TraningTime = param.get("time") * 60, breakTime = param.get("break") * 60;
+    const traningTime = param.get("time") * 60, breakTime = param.get("break") * 60;
     let title = "", time = 0;
     const titleElement = d.getElementById("title"),
     timeElement = d.getElementById("time"),
     countElement = d.getElementById("count");
-    if ( isNaN(TraningTime * breakTime) || TraningTime * breakTime === 0){d.location.href = "./"}
+    if ( isNaN(traningTime * breakTime) || traningTime * breakTime === 0){d.location.href = "./"}
 
     Object.defineProperty(Number.prototype, "PadTo2Digits",
         { value: /** @this {Number}*/function() {return String(this).padStart(2, "0"); }, writable: false
